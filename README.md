@@ -16,7 +16,7 @@ It won a head-to-head tournament of 10 candidates because it packs three distinc
 
 ## How it works
 
-`main.py` (Python standard library only, no network, deterministic) validates the sentence against the gate — non-blank, at most 200 characters, exactly one sentence — then writes it as UTF-8 to `/output/entry.txt`, creating `/output` if needed and setting the directory to mode 0755 and the file to mode 0644. For a local test run, set `ENTRY_OUTPUT_DIR` to a temporary directory:
+`main.py` (Python standard library only, no network, deterministic) validates the sentence against the gate — non-blank, at most 200 characters, exactly one sentence — then writes it as UTF-8 to `/output/entry.txt`, creating `/output` if needed. It never chmods the output directory (the grader runs as uid 65534 while `/output` is a root-owned mount, so chmodding it fails); the file itself is chmodded 0644 on a best-effort basis only. The output directory comes from `MAKEFUN_OUTPUT_DIR`, falling back to `ENTRY_OUTPUT_DIR`, then `/output`. For a local test run, set `ENTRY_OUTPUT_DIR` to a temporary directory:
 
 ```sh
 ENTRY_OUTPUT_DIR=/tmp/alien-food-test python3 main.py
